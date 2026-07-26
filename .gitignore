@@ -1,0 +1,25 @@
+# Xcode
+DerivedData/
+build/
+Build/
+*.xcuserstate
+xcuserdata/
+
+# XcodeGen generated project
+PMEmu.xcodeproj/
+
+# ROMs / BIOS files (do not commit copyrighted game data)
+*.gb
+*.gbc
+*.gba
+*.z64
+*.n64
+*.v64
+*.sav
+*.srm
+
+# Legal bundled homebrew test ROM
+!Resources/ROMs/2048.gb
+
+# macOS
+.DS_Store
