@@ -92,12 +92,6 @@ PMMGBAEmulator* PMMGBAEmulatorCreate(const uint8_t* romData, size_t romSize) {
     mCoreConfigSetDefaultValue(&emulator->core->config, "idleOptimization", "detect");
     mCoreLoadConfig(emulator->core);
 
-    emulator->core->baseVideoSize(emulator->core, &emulator->width, &emulator->height);
-    if (emulator->width == 0 || emulator->height == 0 || emulator->width > PMMGBA_STRIDE || emulator->height > PMMGBA_MAX_HEIGHT) {
-        emulator->width = 160;
-        emulator->height = 144;
-    }
-
     emulator->core->setVideoBuffer(emulator->core, emulator->videoBuffer, PMMGBA_STRIDE);
 
     emulator->romFile = VFileFromConstMemory(emulator->romData, emulator->romSize);
@@ -114,6 +108,11 @@ PMMGBAEmulator* PMMGBAEmulatorCreate(const uint8_t* romData, size_t romSize) {
     }
 
     emulator->core->reset(emulator->core);
+    emulator->core->currentVideoSize(emulator->core, &emulator->width, &emulator->height);
+    if (emulator->width == 0 || emulator->height == 0 || emulator->width > PMMGBA_STRIDE || emulator->height > PMMGBA_MAX_HEIGHT) {
+        emulator->width = 160;
+        emulator->height = 144;
+    }
 
     return emulator;
 }
