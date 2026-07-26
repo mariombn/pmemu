@@ -5,6 +5,7 @@ struct EmulatorPlaceholderView: View {
     let romURL: URL?
     @StateObject private var viewModel = GBCGameViewModel()
     @State private var isEditingLayout = false
+    @State private var isEmulatorOptionsPresented = false
     @AppStorage("gameScreenScale") private var gameScreenScale = 1.0
     @AppStorage("gameScreenXOffset") private var gameScreenXOffset = 0.0
     @AppStorage("gameScreenYOffset") private var gameScreenYOffset = 0.0
@@ -110,12 +111,21 @@ struct EmulatorPlaceholderView: View {
             }
 
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    isEditingLayout.toggle()
-                } label: {
-                    Image(systemName: isEditingLayout ? "checkmark" : "gearshape")
+                if isEditingLayout {
+                    Button {
+                        isEditingLayout = false
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .accessibilityLabel("Concluir edição de layout")
+                } else {
+                    Button {
+                        isEmulatorOptionsPresented = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityLabel("Opções do emulador")
                 }
-                .accessibilityLabel(isEditingLayout ? "Concluir edição de layout" : "Editar layout")
             }
 
             ToolbarItem(placement: .bottomBar) {
@@ -124,6 +134,21 @@ struct EmulatorPlaceholderView: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
+        }
+        .confirmationDialog("Opções do emulador", isPresented: $isEmulatorOptionsPresented, titleVisibility: .visible) {
+            Button("Editar layout") {
+                isEditingLayout = true
+            }
+
+            Button("Salvar state") {
+                viewModel.saveState()
+            }
+
+            Button("Carregar state") {
+                viewModel.loadState()
+            }
+
+            Button("Cancelar", role: .cancel) {}
         }
         .onAppear {
             gameScreenScale = max(gameScreenScale, 1.0)

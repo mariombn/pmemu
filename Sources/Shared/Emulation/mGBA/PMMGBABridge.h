@@ -31,6 +31,18 @@ int PMMGBAEmulatorHeight(const PMMGBAEmulator* emulator);
 bool PMMGBAEmulatorRunFrame(PMMGBAEmulator* emulator);
 bool PMMGBAEmulatorCopyFrameRGBA(const PMMGBAEmulator* emulator, uint8_t* destination, size_t destinationSize);
 
+bool PMMGBAEmulatorLoadSaveData(PMMGBAEmulator* emulator, const uint8_t* data, size_t size);
+size_t PMMGBAEmulatorSaveDataSize(PMMGBAEmulator* emulator);
+bool PMMGBAEmulatorCopySaveData(PMMGBAEmulator* emulator, uint8_t* destination, size_t destinationSize);
+
+size_t PMMGBAEmulatorStateSize(PMMGBAEmulator* emulator);
+bool PMMGBAEmulatorSaveState(PMMGBAEmulator* emulator, uint8_t* destination, size_t destinationSize);
+bool PMMGBAEmulatorLoadState(PMMGBAEmulator* emulator, const uint8_t* data, size_t size);
+
+int PMMGBAEmulatorAudioSampleRate(const PMMGBAEmulator* emulator);
+size_t PMMGBAEmulatorAudioAvailable(PMMGBAEmulator* emulator);
+size_t PMMGBAEmulatorReadAudioS16(PMMGBAEmulator* emulator, int16_t* destination, size_t frames);
+
 void PMMGBAEmulatorSetButton(PMMGBAEmulator* emulator, PMMGBAButton button, bool pressed);
 
 #ifdef __cplusplus
